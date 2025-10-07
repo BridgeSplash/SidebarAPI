@@ -18,6 +18,10 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:8.0")
 }
 
+java{
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
 application {
     mainClass.set("net.minestom.demo.Main")
 }

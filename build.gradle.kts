@@ -4,10 +4,11 @@ plugins {
     id("checkstyle")
     id("com.github.spotbugs") version "6.2.2"
     `java-library`
+    `maven-publish`
 }
 
 group = "net.bridgesplash.sidebar"
-version = "1.0.0"
+version = System.getenv("TAG_VERSION")?: "dev"
 
 repositories {
     mavenCentral()
@@ -44,6 +45,13 @@ configurations.checkstyle {
     }
 }
 
+java{
+    withSourcesJar()
+    withJavadocJar()
+
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
 tasks{
     withType<Jar> { duplicatesStrategy = DuplicatesStrategy.EXCLUDE }
 
@@ -69,5 +77,60 @@ tasks{
 
     test {
         useJUnitPlatform()
+    }
+}
+
+publishing{
+
+    repositories{
+        maven {
+            name = "release"
+            url = uri("https://repo.tesseract.club/private")
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_SECRET")
+            }
+        }
+    }
+
+    publications{
+        create<MavenPublication>("maven"){
+            groupId = "net.bridgesplash"
+            artifactId = "sidebar-api"
+            version = project.version as String
+            from(components["java"])
+
+            pom{
+                name.set(project.name)
+                description.set("A sidebar library that feels uses state to handle updates")
+                url.set("https://github.com/BridgeSplash/SidebarAPI")
+
+                developers{
+                    developer {
+                        id.set("tropicalshadow")
+                        name.set("TropicalShadow")
+                        email.set("me@tesseract.club")
+                    }
+                }
+
+                issueManagement{
+                    system.set("GitHub")
+                    url.set("https://github.com/BridgeSplash/SidebarAPI/issues")
+                }
+
+                scm{
+                    connection.set("scm:git:git://github.com/BridgeSplash/SidebarAPI.git")
+                    developerConnection.set("scm:git:ssh://github.com/BridgeSplash/SidebarAPI.git")
+                    url.set("https://github.com/BridgeSplash/SidebarAPI")
+                    tag.set("HEAD")
+                }
+
+                ciManagement {
+                    system.set("Github Actions")
+                    url.set("https://github.com/BridgeSplash/SidebarAPI/actions")
+                }
+            }
+
+        }
     }
 }
