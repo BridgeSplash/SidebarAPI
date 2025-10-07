@@ -85,7 +85,7 @@ publishing{
     repositories{
         maven {
             name = "release"
-            url = uri("https://repo.tesseract.club/private")
+            url = uri("https://repo.tesseract.club/releases")
             credentials {
                 username = System.getenv("MAVEN_USERNAME")
                 password = System.getenv("MAVEN_SECRET")
