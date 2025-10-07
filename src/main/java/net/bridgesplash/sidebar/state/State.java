@@ -52,6 +52,11 @@ public class State<T> {
         }
     }
 
+    /**
+     * Utility method to update the current value, given the previous value.
+     *
+     * @param update Function that takes the previous value and returns the new value
+     */
     public void setPrev(Function<T, T> update) {
         set(update.apply(get()));
     }

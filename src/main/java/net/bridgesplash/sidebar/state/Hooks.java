@@ -6,7 +6,11 @@ import java.util.function.Supplier;
  * Utility class providing hook-like functions for managing
  * side effects in response to state changes.
  */
-public class Hooks {
+public final class Hooks {
+
+    private Hooks() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Runs the given effect whenever any of the specified dependencies change.

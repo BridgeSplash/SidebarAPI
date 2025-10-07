@@ -7,6 +7,10 @@ import java.util.function.Supplier;
  */
 public final class Memos {
 
+    private Memos() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Returns a memoized {@link State} whose value is recomputed whenever any dependency changes.
      *

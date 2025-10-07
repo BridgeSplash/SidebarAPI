@@ -9,6 +9,10 @@ import net.kyori.adventure.text.ComponentLike;
  */
 public final class AdventureUtils {
 
+    private AdventureUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Converts an object to a {@link Component} for rendering.
      * Supports String, primitives, Component, ComponentLike, and falls back to toString().
