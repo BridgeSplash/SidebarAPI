@@ -19,11 +19,15 @@ public final class SidebarManager {
 
     /**
      * Adds a sidebar for the given player.
+     * If a sidebar already exists for the player, it will be removed.
      *
      * @param player Player to add
      * @param sidebar Sidebar to register player with
      */
     public void addSidebar(Player player, CustomSidebar sidebar) {
+        if (sidebars.containsKey(player)) {
+            removeSidebar(player);
+        }
         sidebars.put(player, sidebar);
         sidebar.addViewer(player);
     }
