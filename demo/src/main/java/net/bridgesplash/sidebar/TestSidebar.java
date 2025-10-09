@@ -87,7 +87,7 @@ public final class TestSidebar {
                     "item_offhand_line",
                     "<green>text</green> <ifstate:item_in_offhand:true:yessir:nope/>"
             );
-            sidebar.setLine("item_in_offhand_line", "<green>text</green> <state:item_in_offhand/>");
+            sidebar.setLine("item_in_offhand_line", "<green>text</green> <bold><yellow><state:item_in_offhand/></yellow></bold>");
 
             SidebarAPI.getSidebarManager().addSidebar(event.getPlayer(), sidebar);
         });

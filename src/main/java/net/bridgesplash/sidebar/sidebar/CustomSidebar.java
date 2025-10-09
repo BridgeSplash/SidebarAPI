@@ -3,11 +3,12 @@ package net.bridgesplash.sidebar.sidebar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
 import net.bridgesplash.sidebar.state.Hooks;
 import net.bridgesplash.sidebar.state.State;
 import net.bridgesplash.sidebar.state.StateManager;
+import net.bridgesplash.sidebar.state.StateNode;
 import net.bridgesplash.sidebar.utils.AdventureUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
@@ -19,7 +20,6 @@ import net.kyori.adventure.text.minimessage.internal.parser.node.TagPart;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.minestom.server.scoreboard.Sidebar;
-import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -71,7 +71,7 @@ public class CustomSidebar extends Sidebar {
                 new ScoreboardLine(key, miniMessage.deserialize(miniMessageContent), index)
         );
         stateToLines.remove(key);
-        parseNodeTreeForStateTags(miniMessageContent).forEach(stateKey -> {
+        parseNodeTreeForStateIds(miniMessageContent).forEach(stateKey -> {
             stateToLines.computeIfAbsent(stateKey, ignored -> new ArrayList<>()).add(key);
         });
     }
@@ -86,27 +86,38 @@ public class CustomSidebar extends Sidebar {
         setLine(key, miniMessageContent, 0);
     }
 
-    List<String> parseNodeTreeForStateTags(String miniMessageContent) {
+    List<String> parseNodeTreeForStateIds(String miniMessageContent) {
         RootNode rootNode = (RootNode) miniMessage.deserializeToTree(miniMessageContent);
-        List<@NotNull ElementNode> elements = rootNode.children();
-        List<@NotNull TagNode> tagNodes = elements.stream()
-                .filter(element -> element instanceof TagNode)
-                .filter(element -> {
-                    List<TagPart> parts = ((TagNode) element).parts();
-                    return !parts.isEmpty() && (parts.getFirst().value().equals("state") || parts.getFirst().value().equals("ifstate"));
-                })
-                .map(element -> {
-                    if (element instanceof TagNode tagNode) {
-                        return tagNode;
-                    }
-                    throw new IllegalArgumentException("Element is not a TagNode");
-                })
-                .toList();
-        return tagNodes.stream()
-                .map(tagNode -> tagNode.parts().get(1).value())
-                .collect(Collectors.toList());
+        List<String> stateKeys = new ArrayList<>();
+        for (ElementNode element : rootNode.children()) {
+            collectStateKeys(element, stateKeys);
+        }
+        return stateKeys;
     }
 
+    private void collectStateKeys(ElementNode element, List<String> outKeys) {
+        if (!(element instanceof TagNode tagNode)) {
+            return;
+        }
+
+        List<TagPart> parts = tagNode.parts();
+        if (!parts.isEmpty()) {
+            String tagName = parts.getFirst().value();
+            StateNode node = StateNode.fromTagName(tagName);
+            // ensure TagName is StateNode
+            if (node != null) {
+                if (parts.size() > 1) {
+                    String tagId = parts.get(1).value();
+                    if (!outKeys.contains(tagId)) {
+                        outKeys.add(tagId);
+                    }
+                }
+            }
+        }
+        for (ElementNode child : tagNode.children()) {
+            collectStateKeys(child, outKeys);
+        }
+    }
 
     /**
      * Adds a state to the sidebar. The value can be any type;
@@ -188,5 +199,6 @@ public class CustomSidebar extends Sidebar {
                     }
                 }));
     }
+
 
 }
