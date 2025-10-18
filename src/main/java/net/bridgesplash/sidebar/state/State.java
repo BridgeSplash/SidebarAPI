@@ -41,6 +41,15 @@ public class State<T> {
     }
 
     /**
+     * Returns the type of the value held by this state.
+     *
+     * @return Class of type T
+     */
+    public Class<T> getType() {
+        return (Class<T>) value.getClass();
+    }
+
+    /**
      * Sets the value of the state. Notifies listeners if the value changes.
      *
      * @param newValue the new value to set

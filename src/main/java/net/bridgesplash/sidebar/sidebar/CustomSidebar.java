@@ -20,6 +20,7 @@ import net.kyori.adventure.text.minimessage.internal.parser.node.TagPart;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.minestom.server.scoreboard.Sidebar;
+import org.intellij.lang.annotations.Subst;
 
 
 /**
@@ -149,7 +150,7 @@ public class CustomSidebar extends Sidebar {
      */
     public List<TagResolver> getTagResolvers() {
         return List.of(
-                TagResolver.resolver("state", (argumentQueue, context) -> {
+                TagResolver.resolver(StateNode.STATE.getTagName(), (argumentQueue, context) -> {
                     String stateKey = argumentQueue.popOr("Missing state key").value();
                     State<?> state = stateManager.getState(stateKey);
                     if (state == null) {
@@ -161,7 +162,42 @@ public class CustomSidebar extends Sidebar {
                     Component component = AdventureUtils.toComponent(value);
                     return Tag.selfClosingInserting(component);
                 }),
-                TagResolver.resolver("ifstate", (argumentQueue, context) -> {
+                TagResolver.resolver(StateNode.PROGRESS.getTagName(), (argumentQueue, context) -> {
+                    final String stateKey = argumentQueue
+                            .popOr("Missing state key")
+                            .value();
+                    final String count = argumentQueue
+                            .popOr("Missing count")
+                            .value();
+                    final String activeContent = argumentQueue
+                            .popOr("Missing active content")
+                            .value();
+                    final String inactiveContent = argumentQueue
+                            .popOr("Missing inactive content")
+                            .value();
+
+                    State<?> state = stateManager.getState(stateKey);
+                    if (state == null) {
+                        return Tag.selfClosingInserting(Component.text("Unknown state: " + stateKey));
+                    }
+                    Class<?> stateType = state.getType();
+                    if (!stateType.equals(Float.class)) {
+                        return Tag.selfClosingInserting(Component.text("Not a number state!"));
+                    }
+                    float value = (float) state.get();
+                    value = Math.max(0f, Math.min(1f, value));
+                    final int progress = (int) (value * 100);
+                    final int amountOfBars = Integer.parseInt(count);
+                    final int activeBars = progress / amountOfBars;
+                    final int inactiveBars = amountOfBars - activeBars;
+
+                    Component message = miniMessage.deserialize(
+                            activeContent.repeat(activeBars) + inactiveContent.repeat(inactiveBars)
+                    );
+
+                    return Tag.selfClosingInserting(message);
+                }),
+                TagResolver.resolver(StateNode.IF_STATE.getTagName(), (argumentQueue, context) -> {
                     String stateKey = argumentQueue
                             .popOr("Missing state key")
                             .value();

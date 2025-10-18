@@ -1,6 +1,8 @@
 package net.bridgesplash.sidebar.state;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.intellij.lang.annotations.Subst;
 
 /**
  * Represents the different types of StateNodes.
@@ -8,10 +10,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum StateNode {
     STATE("state"),
-    IF_STATE("ifstate")
+    IF_STATE("ifstate"),
+    PROGRESS("progress"),
+
     ;
 
-    private final String tagName;
+    @Getter
+    private final @Subst("state") String tagName;
 
 
     /**
