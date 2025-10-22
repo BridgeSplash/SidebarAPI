@@ -20,7 +20,6 @@ import net.kyori.adventure.text.minimessage.internal.parser.node.TagPart;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.minestom.server.scoreboard.Sidebar;
-import org.intellij.lang.annotations.Subst;
 
 
 /**

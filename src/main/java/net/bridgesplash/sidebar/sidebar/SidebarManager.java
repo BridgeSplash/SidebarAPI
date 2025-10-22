@@ -2,6 +2,7 @@ package net.bridgesplash.sidebar.sidebar;
 
 import java.util.WeakHashMap;
 import net.minestom.server.entity.Player;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -14,6 +15,7 @@ public final class SidebarManager {
     /**
      * Constructs a new SidebarManager.
      */
+    @ApiStatus.Internal
     public SidebarManager() {
     }
 
