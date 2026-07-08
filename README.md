@@ -6,8 +6,8 @@ A lightweight, state-driven sidebar API built on Minestom and Kyori Adventure Mi
 - Maven repository (releases): https://repo.tesseract.club/releases
 
 ## Requirements
-- Java 21+
-- Minestom
+- Java 25+
+- Minestom (26.1.2)
 
 ## Installation
 
