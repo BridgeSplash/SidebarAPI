@@ -1,11 +1,12 @@
 package net.bridgesplash.sidebar;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import net.bridgesplash.sidebar.sidebar.CustomSidebar;
 import net.bridgesplash.sidebar.sidebar.SidebarManager;
-import net.bridgesplash.sidebar.state.State;
 import net.kyori.adventure.text.Component;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
 
 public class SidebarTest {
 
@@ -23,7 +24,7 @@ public class SidebarTest {
     }
 
     @Test
-    public void testSidebarAPI(){
+    public void testSidebarApi() {
         SidebarManager manager = SidebarAPI.getSidebarManager();
 
     }

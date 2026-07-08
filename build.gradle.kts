@@ -2,7 +2,7 @@ import com.github.spotbugs.snom.SpotBugsTask
 
 plugins {
     id("checkstyle")
-    id("com.github.spotbugs") version "6.2.2"
+    alias(libs.plugins.spotbugs)
     `java-library`
     `maven-publish`
 }
@@ -15,22 +15,24 @@ repositories {
 }
 
 dependencies {
-    api("net.minestom:minestom:2025.09.13-1.21.8")
-    api("net.kyori:adventure-text-minimessage:4.24.0")
+    api(libs.minestom)
+    api(libs.adventure.minimessage)
 
-    compileOnly("com.github.spotbugs:spotbugs-annotations:4.9.3")
-    spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0")
+    compileOnly(libs.slf4j)
+
+    compileOnly(libs.spotbugs.annotations)
+    spotbugsPlugins(libs.spotbugs.findsecbugs.plugin)
 
     // lombok
-    implementation("org.projectlombok:lombok:1.18.38")
-    annotationProcessor("org.projectlombok:lombok:1.18.38")
+    implementation(libs.lombok)
+    annotationProcessor(libs.lombok)
 
     // jetbrains annotations
-    implementation("org.jetbrains:annotations:26.0.2")
+    implementation(libs.jetbrains.annotations)
 
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("net.kyori:adventure-text-minimessage:4.24.0")
+    testImplementation(libs.adventure.minimessage)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -49,7 +51,7 @@ java{
     withSourcesJar()
     withJavadocJar()
 
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
 }
 
 tasks{

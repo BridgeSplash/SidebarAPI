@@ -92,7 +92,7 @@ public final class TestSidebar {
             SidebarAPI.getSidebarManager().addSidebar(event.getPlayer(), sidebar);
         });
 
-        globalHandler.addListener(PlayerStartSneakingEvent.class, (event) -> {
+        globalHandler.addListener(PlayerInputEvent.class, (event) -> {
             globalSneaks.setPrev((prev) -> prev + 1);
             Player player = event.getPlayer();
             State<Boolean> state = player.getTag(SNEAKING_STATE_TAG);
@@ -100,17 +100,7 @@ public final class TestSidebar {
                 log.error("Player {} has no sneaking state!", player.getName());
                 return;
             }
-            state.set(true);
-        });
-
-        globalHandler.addListener(PlayerStopSneakingEvent.class, (event) -> {
-            Player player = event.getPlayer();
-            State<Boolean> state = player.getTag(SNEAKING_STATE_TAG);
-            if (state == null) {
-                log.error("Player {} has no sneaking state!", player.getName());
-                return;
-            }
-            state.set(false);
+            state.set(event.isHoldingShiftKey());
         });
 
         globalHandler.addListener(PlayerSwapItemEvent.class, (event) -> {

@@ -3,7 +3,6 @@ package net.bridgesplash.sidebar.sidebar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-
 import lombok.extern.slf4j.Slf4j;
 import net.bridgesplash.sidebar.state.Hooks;
 import net.bridgesplash.sidebar.state.State;
@@ -221,7 +220,8 @@ public class CustomSidebar extends Sidebar {
                             case Boolean booleanValue -> Boolean.parseBoolean(expectedValue) == booleanValue;
                             case String stringValue -> expectedValue.equals(stringValue);
                             case Integer integerValue -> Integer.parseInt(expectedValue) == integerValue;
-                            case Component componentValue -> componentValue.equals(AdventureUtils.toComponent(expectedValue));
+                            case Component componentValue ->
+                                    componentValue.equals(AdventureUtils.toComponent(expectedValue));
                             case ComponentLike componentLikeValue -> componentLikeValue.asComponent()
                                     .equals(AdventureUtils.toComponent(expectedValue));
                             default -> expectedValue.equals(value.toString());

@@ -1,0 +1,33 @@
+[versions]
+lombok = "1.18.46"
+minestom = "2026.07.01-26.1.2"
+slf4j = "2.0.18"
+logback = "1.5.37"
+logback-encoder = "8.0"
+minestom-utils = "0.2.0"
+annotations = "26.0.2"
+minimessage = "4.24.0"
+spotbugs-plugin = "6.5.8"
+spotbugs-annotations = "4.10.2"
+spotbugs-findsecbugs-plugin = "1.14.0"
+junit = "6.1.1"
+
+[libraries]
+# Common
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+minestom = { module = "net.minestom:minestom", version.ref = "minestom" }
+adventure-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "minimessage" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+
+spotbugs-annotations = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs-annotations" }
+spotbugs-findsecbugs-plugin = { module = "com.h3xstream.findsecbugs:findsecbugs-plugin", version.ref = "spotbugs-findsecbugs-plugin" }
+slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+minestom-utils = { module = "club.tesseract.minestom:minestom-utils", version.ref = "minestom-utils" }
+
+# TESTING
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logback-encoder" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+
+[plugins]
+spotbugs = { id = "com.github.spotbugs", version.ref = "spotbugs-plugin" }
