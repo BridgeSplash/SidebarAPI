@@ -1,16 +1,16 @@
 [versions]
 lombok = "1.18.46"
-minestom = "2026.07.01-26.1.2"
+minestom = "2026.08.07-26.2"
 slf4j = "2.0.18"
-logback = "1.5.37"
+logback = "1.6.1"
 logback-encoder = "9.0"
-minestom-utils = "0.2.4"
+minestom-utils = "0.2.6"
 annotations = "26.1.0"
 minimessage = "5.2.0"
-spotbugs-plugin = "6.5.8"
-spotbugs-annotations = "4.10.2"
+spotbugs-plugin = "6.5.10"
+spotbugs-annotations = "4.10.3"
 spotbugs-findsecbugs-plugin = "1.14.0"
-junit = "6.1.1"
+junit = "6.1.3"
 
 [libraries]
 # Common
